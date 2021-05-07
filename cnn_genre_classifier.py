@@ -20,9 +20,9 @@ def load_data(data_path):
     X = np.array(data["mfcc"])
     y = np.array(data["labels"])
     print("Loaded Data")
-	
+
     return X, y
-	
+
 
 def plot_history(history):
     """Plots accuracy/loss for training/validation set as a function of the epochs
@@ -146,16 +146,14 @@ if __name__ == "__main__":
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
 
-    #model.summary()
+    model.summary()
 
     # train model
-    history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=30)
+    history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=50)
 
     # evaluate model on test set
     test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
     print('\nTest accuracy:', test_acc)
-	
-    model.save('F:\Python\Music_Genre Classification\cnn_model.h5')
+
+    model.save('F:\MGC\MGC_Final\cnn_model.h5')
     print("Saved model to disk")
-	
-	
