@@ -7,7 +7,6 @@ just_path = "F:/MGC/MGC_Final/"
 song_path = "F:/MGC/you_belong_with_me.mp3"
 song_name = "you_belong_with_me"
 
-print(just_path)
 ##########################################################################
 
 #Constants which depend on the model. If you train the model with different values,
@@ -73,12 +72,13 @@ if __name__=="__main__":
         for n in range(num_segment):
             start = samples_per_segment * n
             finish = start + samples_per_segment
-            #print(len(y[start:finish]))
+            print(len(y[start:finish]))
             mfcc = librosa.feature.mfcc(y[start:finish], sample_rate, n_mfcc = num_mfcc, n_fft = n_fft, hop_length = hop_length)
             mfcc = mfcc.T
             #print(mfcc.shape)
-            mfcc = mfcc.reshape(1, mfcc.shape[0], mfcc.shape[1])
+            mfcc = mfcc.reshape(1, mfcc.shape[0], mfcc.shape[1],1)
             #print(mfcc.shape)
+            
             array = model.predict(mfcc)*100
             array = array.tolist()
 
