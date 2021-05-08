@@ -1,11 +1,16 @@
 import tensorflow as tf
 import librosa
 from mp3towav import convert_to_wav
+import sys
+
 
 ###########################################################################
-just_path = "F:/MGC/MGC_Final/"
-song_path = "F:/MGC/you_belong_with_me.mp3"
-song_name = "you_belong_with_me"
+just_path = "F:/MGC/MGC_Final/Just_Path/"
+song_path = sys.argv[1]
+x1 = song_path.replace("\\", ".")
+print(x1)
+x1 = x1.split(".")
+song_name = x1[-2]
 
 ##########################################################################
 
@@ -65,14 +70,15 @@ if __name__=="__main__":
             start30 = samples_per_segment_30 * i
             finish30 = start30 + samples_per_segment_30
             y = x[start30:finish30]
-            #print(len(y))
+            print(len(y))
         elif flag == 0:
             print("Song is 30 seconds, no slicing")
+            y = x
 
         for n in range(num_segment):
             start = samples_per_segment * n
             finish = start + samples_per_segment
-            print(len(y[start:finish]))
+            #print(len(y[start:finish]))
             mfcc = librosa.feature.mfcc(y[start:finish], sample_rate, n_mfcc = num_mfcc, n_fft = n_fft, hop_length = hop_length)
             mfcc = mfcc.T
             #print(mfcc.shape)
@@ -98,3 +104,4 @@ if __name__=="__main__":
     #print(prediction_per_part)
     prediction = max(set(prediction_per_part), key = prediction_per_part.count)
     print(prediction)
+	
