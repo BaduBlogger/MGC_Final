@@ -15,6 +15,7 @@ from PIL import Image, ImageTk
   
 # Function for opening the 
 # file explorer window
+path_dest = ""
 def browseFiles():
     filename = filedialog.askopenfilename(initialdir = "/",
                                           title = "Select any MP3 Song",
@@ -25,8 +26,16 @@ def browseFiles():
     path = Path(filename)
     print(path)
     #print(os.path.abspath(path))
-    cmd = str("python F:/MGC/MGC_Final/3_prediction.py "+" "+str(path))
+    cmd = str("python F:/MGC/MGC_Final/3_prediction.py "+" "+str(path)+" "+str(path_dest))
     os.system(cmd)
+    os.system("exit()")
+
+def browseDestFolder():
+    foldername = filedialog.askdirectory()
+    print(foldername)
+    global path_dest 
+    path_dest = Path(foldername)
+    print(path_dest)
 	
 
 	
@@ -62,7 +71,11 @@ label1.place(x=1, y=1)
 button_explore = Button(window,
                         text = "Upload Song",
                         command = browseFiles, width = 15, height = 1 , font = "Times 12",bg = "#008B8B",fg = "white") 
-  
+						
+button_destination = Button(window,
+                        text = "Dest Folder",
+                        command = browseDestFolder, width = 15, height = 1 , font = "Times 12",bg = "#008B8B",fg = "white") 
+ 
 # Grid method is chosen for placing
 # the widgets at respective positions 
 # in a table like structure by
@@ -70,6 +83,8 @@ button_explore = Button(window,
 label_file_explorer.place(x = 0, y = 0)
   
 button_explore.place(x = 325, y = 250)
+
+button_destination.place(x = 325, y = 150)
   
 
 window.resizable(0,0)

@@ -2,7 +2,9 @@ import tensorflow as tf
 import librosa
 from mp3towav import convert_to_wav
 import sys
-
+import shutil, os
+import os.path
+from os import path
 
 ###########################################################################
 just_path = "F:/MGC/MGC_Final/Just_Path/"
@@ -40,13 +42,13 @@ if __name__=="__main__":
     if song_path.endswith('.mp3'):
         path_to_save = just_path + song_name+".wav"
         convert_to_wav(song_path,path_to_save)
-        song_path = path_to_save
+        song_path1 = path_to_save
     else:
-        pass
+        song_path1 = song_path
 
     #load the song
-    x, sr = librosa.load(song_path, sr = sample_rate)
-    song_length = int(librosa.get_duration(filename=song_path))
+    x, sr = librosa.load(song_path1, sr = sample_rate)
+    song_length = int(librosa.get_duration(filename=song_path1))
 
     prediction_per_part = []
     flag = 0
@@ -104,4 +106,18 @@ if __name__=="__main__":
     #print(prediction_per_part)
     prediction = max(set(prediction_per_part), key = prediction_per_part.count)
     print(prediction)
-	
+    
+    parent_dir = sys.argv[2]
+    #print(parent_dir)
+	  
+#Create respective genre folder's path
+    pathOfFolder = os.path.join(parent_dir, prediction)
+    print(pathOfFolder)
+           
+#Check if respective genre folder already exists
+#if exists then only move file else create folder and move file
+    if(os.path.exists(pathOfFolder)):        
+        shutil.move(song_path, pathOfFolder)  
+    else:
+        os.mkdir(pathOfFolder)  
+        shutil.move(song_path, pathOfFolder)
